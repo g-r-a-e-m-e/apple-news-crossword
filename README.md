@@ -1,4 +1,4 @@
-# Apple News+ Crossword Data Collection and Analysis
+# Apple News+ Crossword Daily Crossword Performance Analysis
 
 Some friends and I are competetive and nerdy, so we care about tracking and improving around our "crossword performance."
 
