@@ -12,6 +12,13 @@ Starting small, but who knows where this project might wind up?
 1. A LaTeX compiler is necessary to generate the .pdf.
 2. A Sense of humor.
 
+## Usage
+1. Clone the repo to wherever you want it
+2. `$ cd <repo-directory>`
+3. `$ python3 -m venv venv`
+4. `$ source venv/bin/activate`
+5. `$ python3 python/analysis.py`
+
 ## Change Log
 | Date | Version | Author | Notes |
 |---|---|---|---|
