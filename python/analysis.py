@@ -45,7 +45,6 @@ def main_document(fname, width, project_root, *args, **kwargs):
             doc.append("As evidenced by the plots below, Kelly's superior ability to kick ass and take names is apparent at a glance.")
             with doc.create(Figure(position = 'htbp')) as plot:
                 with doc.create(SubFigure()) as subplot:
-                    sns.set(font_scale = 0.5)
                     # Performance over Time
                     subplot.add_caption('Completion Duration by Date')
                     plt.figure(figsize = (6, 3.5))
