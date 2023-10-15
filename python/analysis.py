@@ -42,7 +42,7 @@ def main_document(fname, width, project_root, *args, **kwargs):
     with doc.create(Section('Analysis')):
         
         with doc.create(Subsection('Performance Comparison')):
-            doc.append("As evidenced by the plots below, Graeme sucks at crossword puzzles. Kelly's superior ability to kick ass and take names is apparent at a glance.")
+            doc.append("As evidenced by the plots below, Kelly's superior ability to kick ass and take names is apparent at a glance.")
             with doc.create(Figure(position = 'htbp')) as plot:
                 with doc.create(SubFigure()) as subplot:
                     sns.set(font_scale = 0.5)
