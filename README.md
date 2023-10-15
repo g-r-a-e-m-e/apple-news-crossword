@@ -16,3 +16,4 @@ Starting small, but who knows where this project might wind up?
 | Date | Version | Author | Notes |
 |---|---|---|---|
 | 2023-10-12 | 0.01 | [g-r-a-e-m-e](https://github.com/g-r-a-e-m-e) | Initial commit |
+| 2023-10-15 | 0.02 | [g-r-a-e-m-e](https://github.com/g-r-a-e-m-e) | Updated analysis.py and requirements |
