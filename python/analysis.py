@@ -18,9 +18,13 @@ df = pd.read_csv(data_path, encoding = 'utf8')
 # Convert 'time_to_complete' to 'duration'
 df['duration'] = df['time_to_complete'].apply(lambda x: dt.timedelta(minutes = dt.time.fromisoformat(x).minute, seconds = dt.time.fromisoformat(x).second).seconds)
 
-# Group by Player
-df_grouped = df.pivot_table(values = 'duration', 
-                            index = ['crossword_date', 'first_name']).reset_index()
+# Create Day of Week dummy variables
+df['crossword_day_of_week'] = df['crossword_date'].apply(lambda x: dt.date.fromisoformat(x).strftime('%A'))
+df['completion_day_of_week'] = df['date_completed'].apply(lambda x: dt.date.fromisoformat(x).strftime('%A'))
+
+# # Group by Player
+# df_grouped = df.pivot_table(values = 'duration', 
+#                             index = ['crossword_date', 'first_name']).reset_index()
 
 # LaTeX
 def main_document(fname, width, project_root, *args, **kwargs):
@@ -48,7 +52,7 @@ def main_document(fname, width, project_root, *args, **kwargs):
                     # Performance over Time
                     subplot.add_caption('Completion Duration by Date')
                     plt.figure(figsize = (6, 3.5))
-                    fig_1 = sns.lineplot(data = df_grouped,
+                    fig_1 = sns.lineplot(data = df,
                                         x = 'crossword_date',
                                         y = 'duration',
                                         hue = 'first_name',
@@ -67,7 +71,7 @@ def main_document(fname, width, project_root, *args, **kwargs):
                     # Performance distribution
                     subplot.add_caption('Distribtution of Durations by Player')
                     plt.figure(figsize = (6, 3.5))
-                    fig_2 = sns.boxplot(data = df_grouped,
+                    fig_2 = sns.boxplot(data = df,
                                         x = 'first_name',
                                         y = 'duration',
                                         hue = 'first_name',
@@ -80,8 +84,24 @@ def main_document(fname, width, project_root, *args, **kwargs):
                     plt.ylabel('Duration')
                     plt.tight_layout()
                     subplot.add_plot(width = NoEscape(width))
-                
 
+                with doc.create(SubFigure()) as subplot:
+                    # Barplot
+                    subplot.add_caption('Durations by Time of Day')
+                    plt.figure(figsize = (6, 3.5))
+                    fig_3 = sns.barplot(data = df,
+                                            x = 'time_of_day_completed',
+                                            y = 'duration',
+                                            hue = 'first_name',
+                                            legend = True)
+                    yticks = fig_3.get_yticks()
+                    fig_3.set_yticklabels(pd.to_datetime(yticks, unit = 's').strftime('%H:%M:%S'))
+                    plt.legend(title = 'Player')
+                    plt.xlabel('Time of Day')
+                    plt.ylabel('Duration')
+                    plt.tight_layout()
+                    subplot.add_plot(width = NoEscape(width))
+                
     # Conclusion
     with doc.create(Section('Conclusion')):
         doc.append("Graeme fucked around and found out...though he found out that he sucks at crossword puzzles.")
