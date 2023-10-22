@@ -65,7 +65,7 @@ def main_document(fname, width, project_root, *args, **kwargs):
                     plt.xlabel('Crossword Date')
                     plt.ylabel('Duration')
                     plt.tight_layout()
-                    subplot.add_plot(width = NoEscape(width))
+                    subplot.add_plot()
 
                 with doc.create(SubFigure()) as subplot:
                     # Performance distribution
@@ -83,25 +83,42 @@ def main_document(fname, width, project_root, *args, **kwargs):
                     plt.xlabel('Player')
                     plt.ylabel('Duration')
                     plt.tight_layout()
-                    subplot.add_plot(width = NoEscape(width))
+                    subplot.add_plot()
+
+                with doc.create(SubFigure()) as subplot:
+                    # Duration by Day of Week
+                    subplot.add_caption('Average Durations by Day of Week Completed')
+                    plt.figure(figsize = (6, 3.5))
+                    fig_3 = sns.lineplot(data = df,
+                                         x = 'completion_day_of_week',
+                                         y = 'duration',
+                                         hue = 'first_name',
+                                         legend = True)
+                    yticks = fig_3.get_yticks()
+                    fig_3.set_yticklabels(pd.to_datetime(yticks, unit = 's').strftime('%H:%M:%S'))
+                    plt.legend(title = 'Player')
+                    plt.xlabel('Day of Week')
+                    plt.ylabel('Duration')
+                    plt.tight_layout()
+                    subplot.add_plot()
 
                 with doc.create(SubFigure()) as subplot:
                     # Barplot
                     subplot.add_caption('Durations by Time of Day')
                     plt.figure(figsize = (6, 3.5))
-                    fig_3 = sns.barplot(data = df,
-                                            x = 'time_of_day_completed',
-                                            y = 'duration',
-                                            hue = 'first_name',
-                                            legend = True)
-                    yticks = fig_3.get_yticks()
-                    fig_3.set_yticklabels(pd.to_datetime(yticks, unit = 's').strftime('%H:%M:%S'))
+                    fig_4 = sns.boxplot(data = df,
+                                        x = 'time_of_day_completed',
+                                        y = 'duration',
+                                        hue = 'first_name',
+                                        legend = True)
+                    yticks = fig_4.get_yticks()
+                    fig_4.set_yticklabels(pd.to_datetime(yticks, unit = 's').strftime('%H:%M:%S'))
                     plt.legend(title = 'Player')
                     plt.xlabel('Time of Day')
                     plt.ylabel('Duration')
                     plt.tight_layout()
-                    subplot.add_plot(width = NoEscape(width))
-                
+                    subplot.add_plot()
+
     # Conclusion
     with doc.create(Section('Conclusion')):
         doc.append("Graeme fucked around and found out...though he found out that he sucks at crossword puzzles.")
@@ -115,6 +132,6 @@ def main_document(fname, width, project_root, *args, **kwargs):
 
 if __name__ == '__main__':
     main_document(fname = 'apple-news-plus-daily-crossword-performance-analysis', 
-                  width = r'1\textwidth', 
+                  width = r'\textwidth', 
                   project_root= project_root,
                   dpi=300)
