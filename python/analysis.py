@@ -98,41 +98,41 @@ def main_document(fname, width, project_root, *args, **kwargs):
                     plt.tight_layout()
                     subplot.add_plot()
 
-                
-                # Boxplot
+                # Scatterplot
                 with doc.create(SubFigure(position = 'c', width = NoEscape(r'.45\linewidth'))) as subplot:
-                    subplot.add_caption('Durations by Time of Day')
+                    subplot.add_caption('Duration by Word Count')
                     plt.figure(figsize = (6, 3.5))
-                    fig = sns.boxplot(data = df,
-                                        x = 'time_of_day_completed',
+                    fig = sns.scatterplot(data = df,
+                                        x = 'word_count',
                                         y = 'duration',
                                         hue = 'first_name',
                                         legend = True)
                     yticks = fig.get_yticks()
                     fig.set_yticklabels(pd.to_datetime(yticks, unit = 's').strftime('%H:%M:%S'))
                     plt.legend(title = 'Player')
-                    plt.xlabel('Time of Day')
+                    plt.xlabel('Word Count')
                     plt.ylabel('Duration')
                     plt.tight_layout()
                     subplot.add_plot()
-                
+
                 # doc.append(NewLine())
+                # # Boxplot
                 # with doc.create(SubFigure(position = 'c', width = NoEscape(r'.45\linewidth'))) as subplot:
-                #     subplot.add_caption('Duration by Word Count')
+                #     subplot.add_caption('Durations by Time of Day')
                 #     plt.figure(figsize = (6, 3.5))
-                #     fig = sns.scatterplot(data = df,
-                #                         x = 'word_count',
+                #     fig = sns.boxplot(data = df,
+                #                         x = 'time_of_day_completed',
                 #                         y = 'duration',
                 #                         hue = 'first_name',
                 #                         legend = True)
                 #     yticks = fig.get_yticks()
                 #     fig.set_yticklabels(pd.to_datetime(yticks, unit = 's').strftime('%H:%M:%S'))
                 #     plt.legend(title = 'Player')
-                #     plt.xlabel('Word Count')
+                #     plt.xlabel('Time of Day')
                 #     plt.ylabel('Duration')
                 #     plt.tight_layout()
                 #     subplot.add_plot()
-
+                
     # Conclusion
     with doc.create(Section('Conclusion')):
         doc.append("Graeme fucked around and found out...though he found out that he sucks at crossword puzzles.")
