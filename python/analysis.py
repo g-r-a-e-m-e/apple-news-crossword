@@ -10,7 +10,6 @@ from pdflatex import PDFLaTeX
 # Specify paths
 project_root = dirname(dirname(__file__))
 data_path = join(project_root, 'data/apple-news-daily-crossword-data.csv')
-# compiler_path = join(project_root, '/venv/lib/python3.10/site-packages/pdflatex')
 
 # Read data to Pandas DataFrame
 df = pd.read_csv(data_path, encoding = 'utf8')
