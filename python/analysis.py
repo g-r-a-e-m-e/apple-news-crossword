@@ -37,88 +37,87 @@ def main_document(fname, width, project_root, *args, **kwargs):
     doc.preamble.append(Command('author', 'Graeme Benson'))
     doc.preamble.append(Command('date', NoEscape(r'\today')))
     doc.append(NoEscape(r'\maketitle'))
+    
     # Sections
-    # Abstract
+    ## Abstract
     with doc.create(Section('Abstract')):
         doc.append("The FAFO method demonstrates that Graeme is less skilled than Kelly when it comes to rapidly solving crossword puzzles.")
 
-    # Analysis
+    ## Analysis
     with doc.create(Section('Analysis')):
-        
         with doc.create(Subsection('Performance Comparison')):
             doc.append("As evidenced by the plots below, Kelly's superior ability to kick ass and take names is apparent at a glance.")
-            with doc.create(Figure(position = 'htbp')) as plot:
-                with doc.create(SubFigure()) as subplot:
-                    # Performance over Time
+            with doc.create(Figure(position = 'h!')) as plot:
+                
+                # Performance over time
+                with doc.create(SubFigure(position = 'c', width = NoEscape(r'.45\linewidth'))) as subplot:
                     subplot.add_caption('Completion Duration by Date')
                     plt.figure(figsize = (6, 3.5))
-                    fig_1 = sns.lineplot(data = df,
+                    fig = sns.lineplot(data = df,
                                         x = 'crossword_date',
                                         y = 'duration',
                                         hue = 'first_name',
                                         legend = True)
                     plt.xticks(rotation = 90)
-                    yticks = fig_1.get_yticks()
-                    fig_1.set_yticklabels(pd.to_datetime(yticks, unit = 's').strftime('%H:%M:%S'))
-                    # plt.title('Apple News+ Daily Crossword Completion Times')
+                    yticks = fig.get_yticks()
+                    fig.set_yticklabels(pd.to_datetime(yticks, unit = 's').strftime('%H:%M:%S'))
                     plt.legend(title = 'Player')
                     plt.xlabel('Crossword Date')
                     plt.ylabel('Duration')
                     plt.tight_layout()
                     subplot.add_plot()
 
-                with doc.create(SubFigure()) as subplot:
-                    # Performance distribution
+                # Performance distribution
+                with doc.create(SubFigure(position = 'c', width = NoEscape(r'.45\linewidth'))) as subplot:
                     subplot.add_caption('Distribtution of Durations by Player')
                     plt.figure(figsize = (6, 3.5))
-                    fig_2 = sns.boxplot(data = df,
+                    fig = sns.boxplot(data = df,
                                         x = 'first_name',
                                         y = 'duration',
                                         hue = 'first_name',
                                         legend = True)
-                    yticks = fig_2.get_yticks()
-                    fig_2.set_yticklabels(pd.to_datetime(yticks, unit = 's').strftime('%H:%M:%S'))
-                    # plt.title('Apple News+ Daily Crossword Completion Distribution')
+                    yticks = fig.get_yticks()
+                    fig.set_yticklabels(pd.to_datetime(yticks, unit = 's').strftime('%H:%M:%S'))
                     plt.legend(title = 'Player')
                     plt.xlabel('Player')
                     plt.ylabel('Duration')
                     plt.tight_layout()
                     subplot.add_plot()
-
-                with doc.create(SubFigure()) as subplot:
-                    # Duration by Day of Week
+                
+                # Duration by Day of Week
+                with doc.create(SubFigure(position = 'c', width = NoEscape(r'.45\linewidth'))) as subplot:
                     subplot.add_caption('Average Durations by Day of Week Completed')
                     plt.figure(figsize = (6, 3.5))
-                    fig_3 = sns.lineplot(data = df,
+                    fig = sns.lineplot(data = df,
                                          x = 'completion_day_of_week',
                                          y = 'duration',
                                          hue = 'first_name',
                                          legend = True)
-                    yticks = fig_3.get_yticks()
-                    fig_3.set_yticklabels(pd.to_datetime(yticks, unit = 's').strftime('%H:%M:%S'))
+                    yticks = fig.get_yticks()
+                    fig.set_yticklabels(pd.to_datetime(yticks, unit = 's').strftime('%H:%M:%S'))
                     plt.legend(title = 'Player')
                     plt.xlabel('Day of Week')
                     plt.ylabel('Duration')
                     plt.tight_layout()
                     subplot.add_plot()
 
-                with doc.create(SubFigure()) as subplot:
-                    # Barplot
+                # Boxplot
+                with doc.create(SubFigure(position = 'c', width = NoEscape(r'.45\linewidth'))) as subplot:
                     subplot.add_caption('Durations by Time of Day')
                     plt.figure(figsize = (6, 3.5))
-                    fig_4 = sns.boxplot(data = df,
+                    fig = sns.boxplot(data = df,
                                         x = 'time_of_day_completed',
                                         y = 'duration',
                                         hue = 'first_name',
                                         legend = True)
-                    yticks = fig_4.get_yticks()
-                    fig_4.set_yticklabels(pd.to_datetime(yticks, unit = 's').strftime('%H:%M:%S'))
+                    yticks = fig.get_yticks()
+                    fig.set_yticklabels(pd.to_datetime(yticks, unit = 's').strftime('%H:%M:%S'))
                     plt.legend(title = 'Player')
                     plt.xlabel('Time of Day')
                     plt.ylabel('Duration')
                     plt.tight_layout()
                     subplot.add_plot()
-
+                    
     # Conclusion
     with doc.create(Section('Conclusion')):
         doc.append("Graeme fucked around and found out...though he found out that he sucks at crossword puzzles.")
@@ -127,7 +126,7 @@ def main_document(fname, width, project_root, *args, **kwargs):
     doc.generate_tex()
     tex_file = join(project_root, f'{fname}.tex')
     pdfl = PDFLaTeX.from_texfile(tex_file)
-    pdf = pdfl.create_pdf(keep_pdf_file = True)
+    pdfl.create_pdf(keep_pdf_file = True)
 
 
 if __name__ == '__main__':
