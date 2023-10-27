@@ -47,8 +47,8 @@ def main_document(fname, width, project_root, *args, **kwargs):
     with doc.create(Section('Analysis')):
         with doc.create(Subsection('Performance Comparison')):
             doc.append("As evidenced by the plots below, Kelly's superior ability to kick ass and take names is apparent at a glance.")
+            
             with doc.create(Figure(position = 'h!')) as plot:
-                
                 # Performance over time
                 with doc.create(SubFigure(position = 'c', width = NoEscape(r'.45\linewidth'))) as subplot:
                     subplot.add_caption('Completion Duration by Date')
@@ -83,7 +83,8 @@ def main_document(fname, width, project_root, *args, **kwargs):
                     plt.ylabel('Duration')
                     plt.tight_layout()
                     subplot.add_plot()
-                
+            
+            with doc.create(Figure(position = 'h!')) as plot:
                 # Duration by Day of Week
                 with doc.create(SubFigure(position = 'c', width = NoEscape(r'.45\linewidth'))) as subplot:
                     subplot.add_caption('Average Durations by Day of Week Completed')
