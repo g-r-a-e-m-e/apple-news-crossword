@@ -4,7 +4,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import datetime as dt
-from pylatex import Document, Section, Subsection, Figure, SubFigure, NoEscape, Command
+from pylatex import Document, Section, Subsection, Figure, SubFigure, NoEscape, NewLine, Command
 from pdflatex import PDFLaTeX
 
 # Specify paths
@@ -80,7 +80,7 @@ def main_document(fname, width, project_root, *args, **kwargs):
                     plt.tight_layout()
                     subplot.add_plot()
             
-            with doc.create(Figure(position = 'h!')) as plot:
+                doc.append(NewLine())
                 # Duration by Day of Week
                 with doc.create(SubFigure(position = 'c', width = NoEscape(r'.45\linewidth'))) as subplot:
                     subplot.add_caption('Average Durations by Day of Week Completed')
@@ -98,6 +98,7 @@ def main_document(fname, width, project_root, *args, **kwargs):
                     plt.tight_layout()
                     subplot.add_plot()
 
+                
                 # Boxplot
                 with doc.create(SubFigure(position = 'c', width = NoEscape(r'.45\linewidth'))) as subplot:
                     subplot.add_caption('Durations by Time of Day')
@@ -114,23 +115,23 @@ def main_document(fname, width, project_root, *args, **kwargs):
                     plt.ylabel('Duration')
                     plt.tight_layout()
                     subplot.add_plot()
-
-            # with doc.create(Figure(position = 'h!')) as plot:
-            #     with doc.create(SubFigure(position = 'c', width = NoEscape(r'.45\linewidth'))) as subplot:
-            #         subplot.add_caption('Duration by Word Count')
-            #         plt.figure(figsize = (6, 3.5))
-            #         fig = sns.scatterplot(data = df,
-            #                             x = 'word_count',
-            #                             y = 'duration',
-            #                             hue = 'first_name',
-            #                             legend = True)
-            #         yticks = fig.get_yticks()
-            #         fig.set_yticklabels(pd.to_datetime(yticks, unit = 's').strftime('%H:%M:%S'))
-            #         plt.legend(title = 'Player')
-            #         plt.xlabel('Word Count')
-            #         plt.ylabel('Duration')
-            #         plt.tight_layout()
-            #         subplot.add_plot()
+                
+                # doc.append(NewLine())
+                # with doc.create(SubFigure(position = 'c', width = NoEscape(r'.45\linewidth'))) as subplot:
+                #     subplot.add_caption('Duration by Word Count')
+                #     plt.figure(figsize = (6, 3.5))
+                #     fig = sns.scatterplot(data = df,
+                #                         x = 'word_count',
+                #                         y = 'duration',
+                #                         hue = 'first_name',
+                #                         legend = True)
+                #     yticks = fig.get_yticks()
+                #     fig.set_yticklabels(pd.to_datetime(yticks, unit = 's').strftime('%H:%M:%S'))
+                #     plt.legend(title = 'Player')
+                #     plt.xlabel('Word Count')
+                #     plt.ylabel('Duration')
+                #     plt.tight_layout()
+                #     subplot.add_plot()
 
     # Conclusion
     with doc.create(Section('Conclusion')):
