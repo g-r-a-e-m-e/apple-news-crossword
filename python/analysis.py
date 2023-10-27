@@ -22,10 +22,6 @@ df['duration'] = df['time_to_complete'].apply(lambda x: dt.timedelta(minutes = d
 df['crossword_day_of_week'] = df['crossword_date'].apply(lambda x: dt.date.fromisoformat(x).strftime('%A'))
 df['completion_day_of_week'] = df['date_completed'].apply(lambda x: dt.date.fromisoformat(x).strftime('%A'))
 
-# # Group by Player
-# df_grouped = df.pivot_table(values = 'duration', 
-#                             index = ['crossword_date', 'first_name']).reset_index()
-
 # LaTeX
 def main_document(fname, width, project_root, *args, **kwargs):
     # Document geometry
@@ -118,7 +114,24 @@ def main_document(fname, width, project_root, *args, **kwargs):
                     plt.ylabel('Duration')
                     plt.tight_layout()
                     subplot.add_plot()
-                    
+
+            # with doc.create(Figure(position = 'h!')) as plot:
+            #     with doc.create(SubFigure(position = 'c', width = NoEscape(r'.45\linewidth'))) as subplot:
+            #         subplot.add_caption('Duration by Word Count')
+            #         plt.figure(figsize = (6, 3.5))
+            #         fig = sns.scatterplot(data = df,
+            #                             x = 'word_count',
+            #                             y = 'duration',
+            #                             hue = 'first_name',
+            #                             legend = True)
+            #         yticks = fig.get_yticks()
+            #         fig.set_yticklabels(pd.to_datetime(yticks, unit = 's').strftime('%H:%M:%S'))
+            #         plt.legend(title = 'Player')
+            #         plt.xlabel('Word Count')
+            #         plt.ylabel('Duration')
+            #         plt.tight_layout()
+            #         subplot.add_plot()
+
     # Conclusion
     with doc.create(Section('Conclusion')):
         doc.append("Graeme fucked around and found out...though he found out that he sucks at crossword puzzles.")
@@ -133,5 +146,5 @@ def main_document(fname, width, project_root, *args, **kwargs):
 if __name__ == '__main__':
     main_document(fname = 'apple-news-plus-daily-crossword-performance-analysis', 
                   width = r'\textwidth', 
-                  project_root= project_root,
+                  project_root = project_root,
                   dpi=300)
