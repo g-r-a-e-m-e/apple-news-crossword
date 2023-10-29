@@ -2,6 +2,7 @@
 from os.path import dirname, join
 import pandas as pd
 import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
 import seaborn as sns
 import datetime as dt
 from pylatex import Document, Section, Subsection, Figure, SubFigure, NoEscape, NewLine, Command
@@ -20,6 +21,7 @@ df['duration'] = df['time_to_complete'].apply(lambda x: dt.timedelta(minutes = d
 # Create Day of Week dummy variables
 df['crossword_day_of_week'] = df['crossword_date'].apply(lambda x: dt.date.fromisoformat(x).strftime('%A'))
 df['completion_day_of_week'] = df['date_completed'].apply(lambda x: dt.date.fromisoformat(x).strftime('%A'))
+df['average_duration_per_word'] = df['duration'] / df['word_count']
 
 # LaTeX
 def main_document(fname, width, project_root, *args, **kwargs):
@@ -56,6 +58,9 @@ def main_document(fname, width, project_root, *args, **kwargs):
                     plt.xticks(rotation = 90)
                     yticks = fig.get_yticks()
                     fig.set_yticklabels(pd.to_datetime(yticks, unit = 's').strftime('%H:%M:%S'))
+                    labels = [dt.date.fromisoformat(i).strftime('%b-%d') for i in df['crossword_date'].unique()]
+                    xticks = fig.get_xticks()
+                    plt.xticks(ticks = xticks, labels = labels)
                     plt.legend(title = 'Player')
                     plt.xlabel('Crossword Date')
                     plt.ylabel('Duration')
@@ -91,6 +96,7 @@ def main_document(fname, width, project_root, *args, **kwargs):
                                          legend = True)
                     yticks = fig.get_yticks()
                     fig.set_yticklabels(pd.to_datetime(yticks, unit = 's').strftime('%H:%M:%S'))
+                    plt.xticks(rotation = 45)
                     plt.legend(title = 'Player')
                     plt.xlabel('Day of Week')
                     plt.ylabel('Duration')
@@ -99,18 +105,18 @@ def main_document(fname, width, project_root, *args, **kwargs):
 
                 # Scatterplot
                 with doc.create(SubFigure(position = 'c', width = NoEscape(r'.45\linewidth'))) as subplot:
-                    subplot.add_caption('Duration by Word Count')
+                    subplot.add_caption('Average Duration per Word')
                     plt.figure(figsize = (6, 3.5))
                     fig = sns.scatterplot(data = df,
                                         x = 'word_count',
-                                        y = 'duration',
+                                        y = 'average_duration_per_word',
                                         hue = 'first_name',
                                         legend = True)
                     yticks = fig.get_yticks()
                     fig.set_yticklabels(pd.to_datetime(yticks, unit = 's').strftime('%H:%M:%S'))
                     plt.legend(title = 'Player')
                     plt.xlabel('Word Count')
-                    plt.ylabel('Duration')
+                    plt.ylabel('Avg. Duration')
                     plt.tight_layout()
                     subplot.add_plot()
 
