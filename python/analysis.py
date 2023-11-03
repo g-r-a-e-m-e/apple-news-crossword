@@ -116,7 +116,7 @@ def main_document(fname, width, project_root, *args, **kwargs):
                     fig.set_yticklabels(pd.to_datetime(yticks, unit = 's').strftime('%H:%M:%S'))
                     plt.legend(title = 'Player')
                     plt.xlabel('Word Count')
-                    plt.ylabel('Avg. Duration')
+                    plt.ylabel('Duration')
                     plt.tight_layout()
                     subplot.add_plot()
 
